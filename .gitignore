@@ -1,0 +1,9 @@
+*.png
+__pycache__
+*.pickle
+*.npy
+tmp
+tsne_plots/
+tensorboard*
+logs/
+generated-data/
