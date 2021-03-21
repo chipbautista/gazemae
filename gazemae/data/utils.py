@@ -1,5 +1,6 @@
 from scipy import io
 from scipy.interpolate import interp1d
+import os
 import pandas as pd
 import numpy as np
 
@@ -16,7 +17,7 @@ def load(filename, file_format, **kwargs):
 
 def listdir(directory):
     # a wrapper just to prepend DATA_ROOT
-    return [f for f in listdir(directory)
+    return [f for f in os.listdir(directory)
             if not f.startswith('.')]
 
 

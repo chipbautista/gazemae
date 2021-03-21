@@ -98,7 +98,6 @@ class Trainer:
                 self.global_losses[dset][l][checkpoint] = self.epoch_losses[dset][l]
 
     def train(self):
-        import pdb; pdb.set_trace()
         logging.info('\n===== STARTING TRAINING =====')
         logging.info('{} samples, {} batches.'.format(
                      len(self.dataset), len(self.dataloader)))

@@ -22,7 +22,7 @@ class EyeTrackingCorpus:
                 assert self.slice_time_windows in [None, False,
                                                    '2s-overlap', '2s-disjoint']
                 self.slice_length = self.effective_hz * int(self.slice_time_windows[0])
-                self.viewing_time = 0
+                self.viewing_time = 0  # process whole signal
             else:
                 self.viewing_time = args.viewing_time
 
@@ -151,21 +151,6 @@ class EyeTrackingCorpus:
             self.data['v'] = self.data[['x', 'y']].apply(
                 lambda x: np.abs(np.diff(np.stack(x))).T, 1) / ms_per_sample
 
-            if self.signal_type == 'posvel':
-                self.data['pv'] = self.data.apply(lambda x: np.stack(
-                    (x['x'][:-1], x['y'][:-1],
-                     x['v'][:, 0], x['v'][:, 1])).T,
-                    axis=1)
-                if self.slice_time_windows:
-                    logging.info('POSVEL SIGNAL NOT YET SUPPORTED FOR SLICING')
-                    assert False
-
-        elif self.signal_type == 'acc':
-            logging.info('Calculating acceleration...')
-            ms_per_sample = 1000 / self.effective_hz
-            self.data['a'] = self.data[['x', 'y']].apply(
-                lambda x: np.abs(np.diff(np.stack(x), 2)).T, 1) / ms_per_sample
-
         if self.slice_time_windows:
             hdf5_dataset = self.write_slices_to_h5()
             self.data = hdf5_dataset
@@ -213,9 +198,8 @@ class EyeTrackingCorpus:
 
         slices_df = self.slice_trials()
 
-        assert self.viewing_time > 0
         # prepare hdf5 file. maxshape is resizable.
-        data_dim = self.effective_hz * self.viewing_time
+        data_dim = self.slice_length
         hdf5_file = h5py.File(self.hdf5_fname + '.hdf5', 'w')
 
         hdf5_dataset = hdf5_file.create_dataset(
