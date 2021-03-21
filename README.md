@@ -14,7 +14,7 @@ To run the code, you would need the data sets from the ff. websites/papers:
 Then, create another folder where the code will automatically store the preprocessed datasets: `mkdir generated-data`
 
 ## Training
-**Requirements**
+### Requirements
 Packages used are in requirements_conda.txt.
 Running a simple `conda install --file requirements_conda.txt` might work.
 But if it doesn't, here are the main packages used:
@@ -28,19 +28,19 @@ But if it doesn't, here are the main packages used:
 - future 0.18.2
 - tables 3.6.1 (install via pip)
 
-**Running the code**
+### Running the code
 With the data files in the correct locations, you should be able to run this Python command: `python train.py --signal-type=vel -bs=128 -vt=2 -hz=500 --hierarchical --slice-time-windows=2s-overlap`
 
 This trains the velocity model described in the paper, with the following settings: batch size is 128, the gaze data is preprocessed into 2-second segments (`vt` or viewing time) and at 500 Hz sampling frequency. `hierarchical` means the AE uses the two-bottleneck architecture, and `2s-overlap` means the gaze data is preprocessed into overlapping 2-second segments. More arguments can be found in `settings.py`
 
 ## Files/Codes
-**Loading the datasets**
+### Loading the datasets
 The core Python class for loading the datasets is found in `data/corpus.py`, while the code to handle the individual datasets is in `data/corpora.py`. Each data set has a class, containing code to process the raw data.
 
-**Preprocessing**
-- The code for preprocessing the gaze data (normalization, cutting them up into segments) is within the SignalDataset class in data/data.py. All of the data sets are run through this class so that the preprocessing is consistent. It's also a PyTorch Dataset class, which will be later on used with PyTorch DataLoader to iterate during training.
+### Preprocessing
+The code for preprocessing the gaze data (normalization, cutting them up into segments) is within the SignalDataset class in data/data.py. All of the data sets are run through this class so that the preprocessing is consistent. It's also a PyTorch Dataset class, which will be later on used with PyTorch DataLoader to iterate during training.
 
-**Autoencoder model**
+### Autoencoder model
 The architecture is defined in the files in `network/` folder. The autoencoder model is in `network/autoencoder.py`. but the actual layer functionalities are in `encoder.py` and `decoder.py`.
 
 
