@@ -35,6 +35,13 @@ class Biometrics_ETRA():
         return data.z, data.subj
 
 
+class Biometrics_MIT_LR():
+    def get_xy(self, data):
+        _bool = data.corpus.apply(lambda x: x == 'MIT-LowRes')
+        data = data[_bool]
+        return data.z, data.subj
+
+
 class ETRAStimuli():
     def get_xy(self, data):
         data = data[data.corpus == 'ETRA2019']

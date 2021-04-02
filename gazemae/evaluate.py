@@ -407,7 +407,7 @@ if __name__ == '__main__':
     evaluator = RepresentationEvaluator(tasks=[
         Biometrics_EMVIC(),
         Biometrics(),
-        Biometrics_MIT_LR(),
+        # Biometrics_MIT_LR(),
         ETRAStimuli(),
         AgeGroupBinary(),
         GenderBinary(),
